@@ -13,8 +13,10 @@ func Single(c *cli.Context) error {
 		return errors.New("JWT token (-t) is required");
 	}
 	dir := c.String("dir")
-	if (dir[len(dir)-1:] != "/") {
-		dir+="/"
+	if (len(dir) != 0) {
+		if (dir[len(dir)-1:] != "/") {
+			dir+="/"
+		}
 	}
 	DownloadSingleCourse(dir, c.String("base"), c.Int("id"), c.String("token"))
 	return nil

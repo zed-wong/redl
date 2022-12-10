@@ -58,6 +58,16 @@ func ReadFile(filename string)(string,error){
         return string(content),err
 }
 
+func MkdirIfNotExist(path,name string){
+        _, err := os.Stat(path+name)
+        if os.IsNotExist(err){
+                errDir:= os.MkdirAll(path+name,0755)
+                if errDir != nil{
+                        log.Println(err)
+                }
+        }
+}
+
 func DownloadSingleCourse(path string,base string, id int, auth string) {
         courseNameLink := fmt.Sprintf("https://%s/v1/courses/%d?nonce=00ea6d21-ae15-4317-a222-416e8d3a5ea5", base, id)
         messageLink := fmt.Sprintf("https://%s/v1/courses/%d/messages?nonce=00ea6d21-ae15-4317-a222-416e8d3a5ea5", base, id)
@@ -66,7 +76,10 @@ func DownloadSingleCourse(path string,base string, id int, auth string) {
         courseNameJson := courseName+".json"
         fmt.Println("Course name:",courseName)
         messages := HTTPGET(messageLink,auth)
-        os.WriteFile(path+courseNameJson, []byte(messages), 0644)
+
+	prefix := path+courseName+"/"
+	MkdirIfNotExist(prefix, courseName)
+        os.WriteFile(prefix+courseNameJson, []byte(messages), 0644)
 
         filedatas := messages
         fmt.Println(gjson.Get(filedatas, "#").String(),"files to download.")
@@ -77,13 +90,13 @@ func DownloadSingleCourse(path string,base string, id int, auth string) {
 		switch gjson.Get(filedata[i].String(), "category").String() {
 		case "PLAIN_AUDIO":
 			filename = fmt.Sprintf(s+".mp3")
-	                DownloadFile(path+filename, gjson.Get(filedata[i].String(),"attachment.url").String())
+	                DownloadFile(prefix+filename, gjson.Get(filedata[i].String(),"attachment.url").String())
 		case "PLAIN_IMAGE":
 			filename = fmt.Sprintf(s+".png")
-	                DownloadFile(path+filename, gjson.Get(filedata[i].String(),"attachment.url").String())
+	                DownloadFile(prefix+filename, gjson.Get(filedata[i].String(),"attachment.url").String())
 		case "PLAIN_TEXT":
 			filename = fmt.Sprintf(s+".txt")
-			os.WriteFile(path+filename, []byte(gjson.Get(filedata[i].String(),"text").String()), 0644)
+			os.WriteFile(prefix+filename, []byte(gjson.Get(filedata[i].String(),"text").String()), 0644)
 		}
 		log.Println(filename, "✔️ 下载完成.")
         }
