@@ -10,7 +10,7 @@ USAGE:
    redl [global options] command [command options] [arguments...]
 
 VERSION:
-   0.1
+   1.1.0
 
 COMMANDS:
    single, s  Download a single course
@@ -41,8 +41,8 @@ $ ./redl s -t "Bearer xxx" -i 6000 -d ~/Downloads
 ## Dev state
 
 - [x] single
+- [x] all
 - [ ] range
-- [ ] all
 - [ ] resume
 
 ## Donate
