@@ -45,6 +45,11 @@ $ ./redl s -t "Bearer xxx" -i 6000 -d ~/Downloads
 - [ ] all
 - [ ] resume
 
+## Donate
+
+https://donate.cafe/zedwong
+
 ## Liscense
 
 [GPL-V3](LISCENSE)
+
