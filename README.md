@@ -32,9 +32,19 @@ GLOBAL OPTIONS:
 $ ./redl s -t "Bearer xxx" -i 6000 -d ~/Downloads
 ```
 
-## dev state
+## Supported formats
+
+- [x] Image
+- [x] Audio
+- [x] Text
+
+## Dev state
 
 - [x] single
 - [ ] range
 - [ ] all
 - [ ] resume
+
+## Liscense
+
+[GPL-V3](LISCENSE)
