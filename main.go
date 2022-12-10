@@ -64,7 +64,7 @@ func main() {
 		{
 			Name:	 "range",
 			Aliases: []string{"r"},
-			Usage:	 "Download all courses",
+			Usage:	 "Download courses by range",
 			Action:	 Range,
 			Flags: []cli.Flag{
 				&cli.StringFlag{
