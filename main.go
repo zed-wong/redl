@@ -87,6 +87,17 @@ func main() {
 					Value:	 ".",
 					Usage:   "the data directory",
 				},
+				&cli.StringFlag{
+					Name:	 "token",
+					Aliases: []string{"t"},
+					Usage:	 "collected after OAuth on the website",
+				},
+				&cli.StringFlag{
+					Name:	 "base",
+					Aliases: []string{"b"},
+					Value:	 "xuexi-courses-api.songy.info",
+					Usage:	 "base URL for downloading",
+				},
 			},
 		},
 	}

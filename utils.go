@@ -68,13 +68,13 @@ func MkdirIfNotExist(path,name string){
         }
 }
 
-func DownloadSingleCourse(path string,base string, id int, auth string) {
+func DownloadSingleCourse(path, base, auth string, id int) {
         courseNameLink := fmt.Sprintf("https://%s/v1/courses/%d?nonce=00ea6d21-ae15-4317-a222-416e8d3a5ea5", base, id)
         messageLink := fmt.Sprintf("https://%s/v1/courses/%d/messages?nonce=00ea6d21-ae15-4317-a222-416e8d3a5ea5", base, id)
         courseJson := HTTPGET(courseNameLink,auth)
         courseName := gjson.Get(courseJson, `title`).String()
         courseNameJson := courseName+".json"
-        fmt.Println("Course name:",courseName)
+        fmt.Println("课程名称:",courseName)
         messages := HTTPGET(messageLink,auth)
 
 	prefix := path+courseName+"/"
@@ -82,7 +82,7 @@ func DownloadSingleCourse(path string,base string, id int, auth string) {
         os.WriteFile(prefix+courseNameJson, []byte(messages), 0644)
 
         filedatas := messages
-        fmt.Println(gjson.Get(filedatas, "#").String(),"files to download.")
+        fmt.Println(gjson.Get(filedatas, "#").String(),"个文件待下载.")
 	filedata := gjson.Parse(filedatas).Array()
         for i:=0; i<len(filedata); i++{
 		filename := ""
@@ -102,37 +102,16 @@ func DownloadSingleCourse(path string,base string, id int, auth string) {
         }
 }
 
-/*
-func deprecatedSingle(path string,base string, id int, auth string){
-        courseNameLink := fmt.Sprintf("https://%s/v1/courses/%d?nonce=00ea6d21-ae15-4317-a222-416e8d3a5ea5", base, id)
-        messageLink := fmt.Sprintf("https://%s/v1/courses/%d/messages?nonce=00ea6d21-ae15-4317-a222-416e8d3a5ea5", base, id)
-        courseJson := HTTPGET(courseNameLink,auth)
-        courseName := gjson.Get(courseJson, `title`).String()
-        courseNameJson := courseName+".json"
-        fmt.Println("Course name:",courseName)
-        messages := HTTPGET(messageLink,auth)
-        os.WriteFile(path+courseNameJson, []byte(messages), 0644)
-
-        filedata := messages
-        urllist := gjson.Get(filedata, `#(category=="PLAIN_AUDIO")#.attachment.url`).Array()
-	imglist := gjson.Get(filedata, `#(category=="PLAIN_IMAGE")#.attachment.url`).Array()
-        txtlist := gjson.Get(filedata, `#(category=="PLAIN_TEXT")#.text`).Array()
-
-        for i:=0; i<len(urllist); i++{
-                s := strconv.Itoa(i)
-                filename := fmt.Sprintf(s+".mp3")
-                DownloadFile(path+filename, urllist[i].String())
-        }
-	for i:=0; i<len(imglist); i++{
-                s := strconv.Itoa(i)
-                filename := fmt.Sprintf(s+".png")
-                DownloadFile(path+filename, imglist[i].String())
-        }
-        for i:=0; i<len(txtlist); i++{
-                s := strconv.Itoa(i)
-                filename := fmt.Sprintf(s+".txt")
-                os.WriteFile(path+filename, []byte(txtlist[i].String()), 0644)
-                log.Println(filename, "✔️ 下载完成.")
-        }
+func DownloadAll(path, base, auth string) {
+	courseListLink := fmt.Sprintf("https://%s/v1/courses/?nonce=faae98fd-e329-4039-ac6f-39054c32c664&q=&offset=0&limit=5000&sort=oldest-first", base)
+	courseList := HTTPGET(courseListLink, auth)
+	idList := gjson.Get(courseList,"courses.#.id").Array()
+	for i:=0; i<len(idList); i++ {
+		DownloadSingleCourse(path, base, auth, int(idList[i].Int()))
+	}
+	log.Println("✔️ 下载完成.")
 }
-*/
+
+func DownloadRange(path, base, auth string) {
+	
+}

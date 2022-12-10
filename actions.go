@@ -18,12 +18,22 @@ func Single(c *cli.Context) error {
 			dir+="/"
 		}
 	}
-	DownloadSingleCourse(dir, c.String("base"), c.Int("id"), c.String("token"))
+	DownloadSingleCourse(dir, c.String("base"), c.String("token"), c.Int("id"))
 	return nil
 }
 func Range(c *cli.Context) error {
 	return nil
 }
 func All(c *cli.Context) error {
+	if (len(c.String("token")) == 0) {
+		return errors.New("JWT token (-t) is required");
+	}
+	dir := c.String("dir")
+	if (len(dir) != 0) {
+		if (dir[len(dir)-1:] != "/") {
+			dir+="/"
+		}
+	}
+	DownloadAll(dir, c.String("base"), c.String("token"))
 	return nil
 }
