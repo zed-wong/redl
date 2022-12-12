@@ -38,7 +38,7 @@ Download all courses:
 $ ./redl a -t "Bearer xxx" -d ~/Downloads
 
 Download by range:
-$ ./redl r -r "1-10" -d ~/Downloads
+$ ./redl r -t "Bearer xxx" -r "1-10" -d ~/Downloads
 ```
 
 ## Supported formats
