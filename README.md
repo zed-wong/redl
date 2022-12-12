@@ -11,7 +11,7 @@ USAGE:
    redl [global options] command [command options] [arguments...]
 
 VERSION:
-   1.1.0
+   1.2.0
 
 COMMANDS:
    single, s  Download a single course
