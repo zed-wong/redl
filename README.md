@@ -48,7 +48,7 @@ $ ./redl s -t "Bearer xxx" -i 6000 -d ~/Downloads
 
 ## Donate
 
-https://donate.cafe/zedwong
+https://mixpay.me/28865
 
 ## Liscense
 
