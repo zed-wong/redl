@@ -31,10 +31,10 @@ GLOBAL OPTIONS:
 
 
 ```
-Download single course:
+Download a single course:
 $ ./redl s -t "Bearer xxx" -i 6000 -d ~/Downloads
 
-Download all course:
+Download all courses:
 $ ./redl a -t "Bearer xxx" -d ~/Downloads
 
 Download by range:
