@@ -68,11 +68,28 @@ func main() {
 			Action:	 Range,
 			Flags: []cli.Flag{
 				&cli.StringFlag{
+					Name:    "dir",
+					Aliases: []string{"d"},
+					Usage:   "the output data directory",
+				},
+				&cli.StringFlag{
 					Name:    "range",
 					Aliases: []string{"r"},
 					Value:	 "0-1000",
 					Usage:   "course range to download",
 				},
+				&cli.StringFlag{
+					Name:	 "token",
+					Aliases: []string{"t"},
+					Usage:	 "collected after OAuth on the website",
+				},
+				&cli.StringFlag{
+					Name:	 "base",
+					Aliases: []string{"b"},
+					Value:	 "xuexi-courses-api.songy.info",
+					Usage:	 "base URL for downloading",
+				},
+
 			},
 		},
 		{

@@ -29,8 +29,16 @@ GLOBAL OPTIONS:
 
 ## Example
 
+
 ```
+Download single course:
 $ ./redl s -t "Bearer xxx" -i 6000 -d ~/Downloads
+
+Download all course:
+$ ./redl a -t "Bearer xxx" -d ~/Downloads
+
+Download by range:
+$ ./redl r -r "1-10" -d ~/Downloads
 ```
 
 ## Supported formats
@@ -43,7 +51,7 @@ $ ./redl s -t "Bearer xxx" -i 6000 -d ~/Downloads
 
 - [x] single
 - [x] all
-- [ ] range
+- [x] range
 - [ ] resume
 
 ## Donate
