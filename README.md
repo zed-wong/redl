@@ -3,7 +3,6 @@
 A cli tool for downloading courses inside Mixin ecosystem.
 
 ```
-$ ./redl -h
 NAME:
    redl - A simple powerful cli tool for downloading courses inside Mixin ecosystem.
 
@@ -16,6 +15,7 @@ VERSION:
 COMMANDS:
    single, s  Download a single course
    range, r   Download courses by range
+   list, l    Download a list of courses
    all, a     Download all courses
    help, h    Shows a list of commands or help for one command
 
@@ -39,6 +39,9 @@ $ ./redl a -t "Bearer xxx" -d ~/Downloads
 
 Download by range:
 $ ./redl r -t "Bearer xxx" -r "1-10" -d ~/Downloads
+
+Download by list:
+$ ./redl l -t "Bearer xxx" -r 6000,7000,8000,1234 ~/Downloads
 ```
 
 ## Supported formats
@@ -46,12 +49,14 @@ $ ./redl r -t "Bearer xxx" -r "1-10" -d ~/Downloads
 - [x] Image
 - [x] Audio
 - [x] Text
+- [x] Video
 
 ## Dev state
 
 - [x] single
 - [x] all
 - [x] range
+- [x] list
 - [ ] resume
 
 ## Donate
