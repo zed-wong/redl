@@ -41,7 +41,7 @@ Download by range:
 $ ./redl r -t "Bearer xxx" -r "1-10" -d ~/Downloads
 
 Download by list:
-$ ./redl l -t "Bearer xxx" -r 6000,7000,8000,1234 ~/Downloads
+$ ./redl l -t "Bearer xxx" -r 6000,7000,8000,1234 -d ~/Downloads
 ```
 
 ## Supported formats
