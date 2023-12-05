@@ -11,7 +11,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "redl"
 	app.Usage = "A simple powerful cli tool for downloading courses inside Mixin ecosystem."
-	app.Version = "1.2.0"
+	app.Version = "1.3.0"
 	app.Flags = []cli.Flag{
 		&cli.StringFlag{
 			Name:    "token",
