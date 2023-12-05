@@ -9,6 +9,7 @@ import (
 	"net/url"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/tidwall/gjson"
 )
@@ -74,9 +75,12 @@ func MkdirIfNotExist(path, name string) {
 	}
 }
 
-func DownloadSingleCourse(path, base, auth string, id int) {
+func DownloadSingleCourse(path, base, auth string, id int) bool {
+	if !strings.HasPrefix(auth, "Bearer") {
+		auth = "Bearer " + auth
+	}
 	courseNameLink := fmt.Sprintf("https://%s/v1/courses/%d?nonce=00ea6d21-ae15-4317-a222-416e8d3a5ea5", base, id)
-	messageLink := fmt.Sprintf("https://%s/v1/courses/%d/messages?nonce=00ea6d21-ae15-4317-a222-416e8d3a5ea5", base, id)
+	messageLink := fmt.Sprintf("https://%s/v1/courses/%d/messages?nonce=ea1dbaf2-000e-4431-9b39-8d02512896a3", base, id)
 	courseJson := HTTPGET(courseNameLink, auth)
 	courseName := gjson.Get(courseJson, `title`).String()
 	courseNameJson := courseName + ".json"
@@ -88,6 +92,14 @@ func DownloadSingleCourse(path, base, auth string, id int) {
 	os.WriteFile(prefix+courseNameJson, []byte(messages), 0644)
 
 	filedatas := messages
+	/*
+		fmt.Println("messageLink:", messageLink)
+		fmt.Println("messages:", messages)
+		fmt.Println("auth:", auth)
+	*/
+	if len(gjson.Get(filedatas, "#").String()) == 0 {
+		return false
+	}
 	fmt.Println(gjson.Get(filedatas, "#").String(), "个文件待下载.")
 	filedata := gjson.Parse(filedatas).Array()
 	for i := 0; i < len(filedata); i++ {
@@ -103,9 +115,13 @@ func DownloadSingleCourse(path, base, auth string, id int) {
 		case "PLAIN_TEXT":
 			filename = fmt.Sprintf(s + ".txt")
 			os.WriteFile(prefix+filename, []byte(gjson.Get(filedata[i].String(), "text").String()), 0644)
+		case "PLAIN_VIDEO":
+			filename = fmt.Sprintf(s + ".mp4")
+			DownloadFile(prefix+filename, gjson.Get(filedata[i].String(), "attachment.url").String())
 		}
 		log.Println(filename, "✔️ 下载完成.")
 	}
+	return true
 }
 
 func DownloadAll(path, base, auth string) {

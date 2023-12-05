@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -51,6 +52,32 @@ func Range(c *cli.Context) error {
 	DownloadRange(dir, c.String("base"), c.String("token"), r0, r1)
 	return nil
 }
+func List(c *cli.Context) error {
+	list := c.String("range")
+	if len(c.String("range")) == 0 {
+		return errors.New("Range (-r) is required")
+	}
+	if len(c.String("token")) == 0 {
+		return errors.New("JWT token (-t) is required")
+	}
+	dir := fmtDir(c.String("dir"))
+	arr := strings.Split(list, ",")
+	if len(arr) == 0 {
+		return errors.New("Please use comma between each course id, e.g. '1,234,567'")
+	}
+	if len(arr) == 1 {
+		return errors.New("To download a single course, pls use -single")
+	}
+	for i := 0; i < len(arr); i++ {
+		num, err := strconv.Atoi(arr[i])
+		if err != nil {
+			return errors.New(fmt.Sprintf("Please use number only (%s)", arr[i]))
+		}
+		DownloadSingleCourse(dir, c.String("base"), c.String("token"), num)
+	}
+	return nil
+}
+
 func All(c *cli.Context) error {
 	if len(c.String("token")) == 0 {
 		return errors.New("JWT token (-t) is required")
